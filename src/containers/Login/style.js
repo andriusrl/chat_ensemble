@@ -10,4 +10,8 @@ export const WrapperLogin = styled.div`
 export const WrapperForm = styled.form`
     display: flex;
     flex-direction: column;
+    text-align: center;
+    border: 1px solid black;
+    border-radius: 16px;
+    padding: 19px;
 `
