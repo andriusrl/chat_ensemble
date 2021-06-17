@@ -2,7 +2,7 @@ import React from "react"
 import { WrapperForm, WrapperLogin } from "./style";
 import axios from "axios";
 
-const baseUrl = "https://job.ensemble.com.br/api/"
+const baseUrl = "https://job.ensemble.com.br/api"
 const ens_api_token = "R0VEEQ8vfMhpiBS1Yuzc"
 
 function Login() {
