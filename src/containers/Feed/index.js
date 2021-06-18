@@ -13,7 +13,7 @@ import {
 const baseUrl = "https://job.ensemble.com.br/api"
 const ens_api_token = "R0VEEQ8vfMhpiBS1Yuzc"
 
-const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoidGVzdDIiLCJpYXQiOjE2MjM5NzY2NDIsImV4cCI6MTYyMzk4MDI0Mn0.8kJO1gKjHgoZVY-COgycC6jUdDOkSH_J40rDh2ZypX0"
+const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoidGVzdDMiLCJpYXQiOjE2MjM5Nzg1NzYsImV4cCI6MTYyMzk4MjE3Nn0.x05-ezVraqYmPywiiVWQfcaM14fPYvdd4z0WaiBsPus"
 
 function Feed() {
     const [feed, setFeed] = useState(undefined)
@@ -77,11 +77,13 @@ function Feed() {
 
     const sentMessage = async (e) => {
         e.preventDefault()
+        const message = inputMessage
+        setInputMessage("")
         try {
             const response = await axios.post(
                 `${baseUrl}/feed`,
                 {
-                    "message": inputMessage
+                    "message": message
                 },
                 {
                     headers: {
@@ -94,6 +96,7 @@ function Feed() {
             )
             console.log("send message");
             console.log(response.data)
+            getFeed()
         } catch (error) {
             console.log(error)
         }
