@@ -1,11 +1,13 @@
-import React from "react"
+import React,{ useState } from "react"
 import { WrapperForm, WrapperLogin } from "./style";
 import axios from "axios";
+import { Redirect } from "react-router-dom"
 
 const baseUrl = "https://job.ensemble.com.br/api"
 const ens_api_token = "R0VEEQ8vfMhpiBS1Yuzc"
 
 function Login() {
+    const [loginStatus, setLoginStatus] = useState(false)
 
     const signIn = async (e)=>{
         e.preventDefault()
@@ -26,10 +28,16 @@ function Login() {
             )
             console.log(response.data.authToken)
             window.localStorage.setItem("authToken", response.data.authToken)
+            setLoginStatus(true)
         } catch(error) {
             console.log(error)
         }
     }
+    
+    if(loginStatus){
+        return <Redirect to="feed" />
+    }
+
     return (
       <WrapperLogin>
         <WrapperForm onSubmit={signIn}>

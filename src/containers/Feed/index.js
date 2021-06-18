@@ -13,7 +13,7 @@ import {
 const baseUrl = "https://job.ensemble.com.br/api"
 const ens_api_token = "R0VEEQ8vfMhpiBS1Yuzc"
 
-const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoidGVzdDMiLCJpYXQiOjE2MjM5Nzg1NzYsImV4cCI6MTYyMzk4MjE3Nn0.x05-ezVraqYmPywiiVWQfcaM14fPYvdd4z0WaiBsPus"
+const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoidGVzdDQiLCJpYXQiOjE2MjM5ODAwMjgsImV4cCI6MTYyMzk4MzYyOH0.zPJTGgnQUx3UpkxEMUnhvBSpuontCMGrjkDel6zFXPw"
 
 function Feed() {
     const [feed, setFeed] = useState(undefined)
@@ -76,7 +76,7 @@ function Feed() {
     }
 
     const sentMessage = async (e) => {
-        e.preventDefault()
+        e?.preventDefault()
         const message = inputMessage
         setInputMessage("")
         try {
@@ -102,12 +102,19 @@ function Feed() {
         }
     }
 
+    const checkKey = (e) =>{
+        if (e.keyCode === 13){
+            sentMessage()
+        }
+
+    }
+
     return <WrapperFeed>
         <MessagesWrapper>
             {showFeed()}
         </MessagesWrapper>
         <InputMessageWrapper onSubmit={sentMessage}>
-            <InputMessage placeholder="Message" onChange={handleInputChange} value={inputMessage} />
+            <InputMessage placeholder="Message" onChange={handleInputChange} value={inputMessage} onKeyDown={checkKey} />
             <ButtonSend type="submit">Send</ButtonSend>
         </InputMessageWrapper>
     </WrapperFeed>
