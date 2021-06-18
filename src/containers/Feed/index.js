@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react"
-import { parseISO, format } from 'date-fns';
 import { Redirect } from "react-router-dom"
 import axios from "axios";
 import {
@@ -8,10 +7,10 @@ import {
     InputMessageWrapper,
     Loading,
     Logout,
-    Message,
     MessagesWrapper,
     WrapperFeed
 } from "./style"
+import Message from "../../components/Message";
 
 const baseUrl = "https://job.ensemble.com.br/api"
 const ens_api_token = "R0VEEQ8vfMhpiBS1Yuzc"
@@ -41,8 +40,6 @@ function Feed() {
                     }
                 }
             )
-            console.log("entrei aqui a primeira vez")
-            console.log(response.data.count)
             return (response.data.count)
         } catch (error) {
             console.log(error)
@@ -52,12 +49,9 @@ function Feed() {
     const getFeed = async () => {
         try {
             if (totalMessages === undefined) {
-                console.log("Veio como unfined")
                 totalMessages = await getTotalMessages()
             }
-            console.log(totalMessages)
             if (totalMessages) {
-                console.log(totalMessages)
                 const response = await axios.get(
                     `${baseUrl}/feed?startSeq=${totalMessages ? totalMessages - 99 : 1}&limit=number&order=asc`,
                     {
@@ -71,14 +65,13 @@ function Feed() {
                 )
                 totalMessages = response.data.lastPostSeq
                 setFeed(response.data)
-                // console.log(response.data.lastPostSeq)
-                console.log(response.data)
             }
 
             setTimeout(() => { getFeed() }, 5000)
         } catch (error) {
             console.log(error)
             console.log(error.response)
+            setLoginStatus(false)
         }
     }
 
@@ -92,18 +85,12 @@ function Feed() {
                 {
                     feed?.posts.slice(0).reverse().map((post) => {
                         return (
-                            <Message key={post.seq}>
-                                <div>
-                                    {post.user === username ? false : post.user}
-                                </div>
-                                {post.message}
-                                <div>
-                                    {format(
-                                        parseISO(post.date),
-                                        "dd MMMM HH:mm"
-                                    )}
-                                </div>
-                            </Message>
+                            <Message
+                                key={post.seq}
+                                user={post.user === username ? false : post.user}
+                                message={post.message}
+                                date={post.date}
+                            />
                         )
                     })}
             </>
@@ -134,9 +121,6 @@ function Feed() {
                     }
                 }
             )
-            console.log("send message");
-            console.log(response.data)
-            console.log("Eea bateu" + response.data.seq)
             totalMessages = response.data.seq
         } catch (error) {
             console.log(error)

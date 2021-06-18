@@ -31,11 +31,6 @@ export const ButtonSend = styled.button`
     width: 25%;
     height: 100%;
 `
-export const Message = styled.div`
-    border: 1px solid black;
-    margin: 6px 0 6px 0;
-    border-radius: 5px;
-`
 export const Logout = styled.button`
     position: absolute;
     justify-content: flex-end;
