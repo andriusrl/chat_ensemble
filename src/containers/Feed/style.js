@@ -7,25 +7,30 @@ export const WrapperFeed = styled.div`
     justify-content: center;
     align-items: center;
 `
-export const MessageWrapper = styled.div`
+export const MessagesWrapper = styled.div`
     border: 1px solid black;
     border-radius: 9px;
     width: 90%;
     height: 80%;
     padding: 9px;
+    overflow: auto;
+    display: flex;
+    flex-direction: column-reverse;
+    /* flex-direction: ; */
+    /* scroll-behavior: smooth; */
 `
-export const InputMessageWrapper = styled.div`
+export const InputMessageWrapper = styled.form`
     margin-top: 3%;
     width: 90%;
     height: 9%;
 `
 export const InputMessage = styled.input`
     border-radius: 9px;
-    width: 70%;
+    width: 75%;
     height: 100%;
 `
 export const ButtonSend = styled.button`
-    width: 30%;
+    width: 25%;
     height: 100%;
 `
 export const Message = styled.div`

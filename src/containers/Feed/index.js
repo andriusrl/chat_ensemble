@@ -6,17 +6,22 @@ import {
     InputMessage,
     InputMessageWrapper,
     Message,
-    MessageWrapper,
+    MessagesWrapper,
     WrapperFeed
 } from "./style"
 
 const baseUrl = "https://job.ensemble.com.br/api"
 const ens_api_token = "R0VEEQ8vfMhpiBS1Yuzc"
 
-const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoidGVzdDIiLCJpYXQiOjE2MjM5NTk1MzUsImV4cCI6MTYyMzk2MzEzNX0.oNw-InV0g9CmnOYevdXqsLOaJqCmrxpsM34v7Zjgns0"
+const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoidGVzdDIiLCJpYXQiOjE2MjM5NzY2NDIsImV4cCI6MTYyMzk4MDI0Mn0.8kJO1gKjHgoZVY-COgycC6jUdDOkSH_J40rDh2ZypX0"
 
 function Feed() {
     const [feed, setFeed] = useState(undefined)
+    const [inputMessage, setInputMessage] = useState("")
+
+    const handleInputChange = e => {
+        setInputMessage(e.target.value)
+    }
 
     const getFeed = async () => {
         try {
@@ -32,6 +37,10 @@ function Feed() {
                 }
             )
             setFeed(response.data)
+            setTimeout(()=>{
+                console.log("testando o intervalo")
+                getFeed()
+            }, 5000)
         } catch (error) {
             console.log(error)
         }
@@ -41,12 +50,13 @@ function Feed() {
         getFeed()
     }, [])
 
-    console.log(feed)
-    console.log(parseISO(feed?.posts[0].date).toString());
+    console.log(feed?.posts)
+    // console.log(parseISO(feed?.posts[0].date).toString());
 
-    const showFeed = () => {
+    function showFeed() {
+        console.log("Entrou no feed");
         return <>
-            {feed?.posts.map((post) => {
+            {feed?.posts.slice(0).reverse().map((post) => {
                 return (
                     <Message key={post.seq}>
                         <div>
@@ -65,15 +75,37 @@ function Feed() {
         </>
     }
 
+    const sentMessage = async (e) => {
+        e.preventDefault()
+        try {
+            const response = await axios.post(
+                `${baseUrl}/feed`,
+                {
+                    "message": inputMessage
+                },
+                {
+                    headers: {
+                        'ens-api-token': ens_api_token,
+                        'ens-auth-token': token,
+                        'Accept': "application/json",
+                        'Content-Type': "application/json"
+                    }
+                }
+            )
+            console.log("send message");
+            console.log(response.data)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
     return <WrapperFeed>
-        <MessageWrapper>
-            <div>
-                {showFeed()}
-            </div>
-        </MessageWrapper>
-        <InputMessageWrapper>
-            <InputMessage></InputMessage>
-            <ButtonSend>Send</ButtonSend>
+        <MessagesWrapper>
+            {showFeed()}
+        </MessagesWrapper>
+        <InputMessageWrapper onSubmit={sentMessage}>
+            <InputMessage placeholder="Message" onChange={handleInputChange} value={inputMessage} />
+            <ButtonSend type="submit">Send</ButtonSend>
         </InputMessageWrapper>
     </WrapperFeed>
 }
