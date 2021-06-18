@@ -16,11 +16,17 @@ export const MessagesWrapper = styled.div`
     overflow: auto;
     display: flex;
     flex-direction: column-reverse;
+    @media (min-width: 768px) {
+        width: 60%;
+    };
 `
 export const InputMessageWrapper = styled.form`
     margin-top: 3%;
     width: 90%;
     height: 9%;
+    @media (min-width: 768px) {
+        width: 60%;
+    };
 `
 export const InputMessage = styled.input`
     border-radius: 9px;
