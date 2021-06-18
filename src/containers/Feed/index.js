@@ -1,20 +1,20 @@
 import React, { useEffect, useState } from "react"
-import { parseISO, format } from 'date-fns';
 import { Redirect } from "react-router-dom"
 import axios from "axios";
 import {
     ButtonSend,
     InputMessage,
     InputMessageWrapper,
+    Loading,
     Logout,
-    Message,
     MessagesWrapper,
     WrapperFeed
 } from "./style"
+import Message from "../../components/Message";
 
 const baseUrl = "https://job.ensemble.com.br/api"
 const ens_api_token = "R0VEEQ8vfMhpiBS1Yuzc"
-let total = undefined
+let totalMessages = undefined
 
 function Feed() {
     const token = window.localStorage.getItem("authToken")
@@ -22,7 +22,6 @@ function Feed() {
     const [feed, setFeed] = useState(undefined)
     const [inputMessage, setInputMessage] = useState("")
     const [loginStatus, setLoginStatus] = useState(true)
-    const [totalMessages, setTotalMessages] = useState(undefined)
 
     const handleInputChange = e => {
         setInputMessage(e.target.value)
@@ -41,9 +40,6 @@ function Feed() {
                     }
                 }
             )
-            console.log("entrei aqui a primeira vez")
-            console.log(response.data.count)
-            // setTotalMessages(response.data.count)
             return (response.data.count)
         } catch (error) {
             console.log(error)
@@ -52,15 +48,12 @@ function Feed() {
     }
     const getFeed = async () => {
         try {
-            if (total === undefined) {
-                console.log("Veio como unfined")
-                total = await getTotalMessages()
+            if (totalMessages === undefined) {
+                totalMessages = await getTotalMessages()
             }
-            console.log(total)
-            if (total) {
-                console.log(total)
+            if (totalMessages) {
                 const response = await axios.get(
-                    `${baseUrl}/feed?startSeq=${total ? total - 99 : 1}&limit=number&order=asc`,
+                    `${baseUrl}/feed?startSeq=${totalMessages ? totalMessages - 99 : 1}&limit=number&order=asc`,
                     {
                         headers: {
                             'ens-api-token': ens_api_token,
@@ -70,43 +63,43 @@ function Feed() {
                         }
                     }
                 )
-                total = response.data.lastPostSeq
+                totalMessages = response.data.lastPostSeq
                 setFeed(response.data)
-                // console.log(response.data.lastPostSeq)
-                console.log(response.data)
             }
-            
+
             setTimeout(() => { getFeed() }, 5000)
         } catch (error) {
             console.log(error)
             console.log(error.response)
+            setLoginStatus(false)
         }
     }
 
     useEffect(() => {
-        // getTotalMessages()
         getFeed()
     }, [])
 
     function showFeed() {
-        return <>
-            {feed?.posts.slice(0).reverse().map((post) => {
-                return (
-                    <Message key={post.seq}>
-                        <div>
-                            {post.user === username ? false : post.user}
-                        </div>
-                        {post.message}
-                        <div>
-                            {format(
-                                parseISO(post.date),
-                                "dd MMMM HH:mm"
-                            )}
-                        </div>
-                    </Message>
-                )
-            })}
-        </>
+        if (feed?.posts) {
+            return <>
+                {
+                    feed?.posts.slice(0).reverse().map((post) => {
+                        return (
+                            <Message
+                                key={post.seq}
+                                user={post.user === username ? false : post.user}
+                                message={post.message}
+                                date={post.date}
+                            />
+                        )
+                    })}
+            </>
+        }
+        else {
+            return <Loading>
+                Carregando...
+            </Loading>
+        }
     }
 
     const sentMessage = async (e) => {
@@ -128,15 +121,7 @@ function Feed() {
                     }
                 }
             )
-            console.log("send message");
-            console.log(response.data)
-            console.log("Eea bateu" + response.data.seq)
-            total = response.data.seq
-            // if (response.data.LastPostSeq) {
-            //     console.log("So entra de segunda");
-            //     total = response.data.LastPostSeq
-            // }
-            // getFeed()
+            totalMessages = response.data.seq
         } catch (error) {
             console.log(error)
         }
