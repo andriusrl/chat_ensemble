@@ -38,3 +38,10 @@ export const Message = styled.div`
     margin: 6px 0 6px 0;
     border-radius: 5px;
 `
+export const Logout = styled.button`
+    position: absolute;
+    justify-content: flex-end;
+    margin: 0 0 90vh 0;
+    width: 100px;
+    height: 30px;
+`

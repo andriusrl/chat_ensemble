@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react"
 import { parseISO, format } from 'date-fns';
+import { Redirect } from "react-router-dom"
 import axios from "axios";
 import {
     ButtonSend,
     InputMessage,
     InputMessageWrapper,
+    Logout,
     Message,
     MessagesWrapper,
     WrapperFeed
@@ -18,6 +20,7 @@ const username = window.localStorage.getItem("username")
 function Feed() {
     const [feed, setFeed] = useState(undefined)
     const [inputMessage, setInputMessage] = useState("")
+    const [loginStatus, setLoginStatus] = useState(true)
 
     const handleInputChange = e => {
         setInputMessage(e.target.value)
@@ -40,6 +43,7 @@ function Feed() {
             setTimeout(() => { getFeed() }, 5000)
         } catch (error) {
             console.log(error)
+            console.log(error.response)
         }
     }
 
@@ -49,8 +53,6 @@ function Feed() {
     }, [])
 
     function showFeed() {
-        console.log("Entrou no feed");
-        console.log(username);
         return <>
             {feed?.posts.slice(0).reverse().map((post) => {
                 return (
@@ -98,19 +100,23 @@ function Feed() {
         }
     }
 
-    const checkKey = (e) => {
-        if (e.keyCode === 13) {
-            sentMessage()
-        }
+    const logout = () => {
+        window.localStorage.removeItem('authToken')
+        window.localStorage.removeItem('username')
+        setLoginStatus(false)
+    }
 
+    if (!loginStatus){
+        return <Redirect to="/" />
     }
 
     return <WrapperFeed>
+        <Logout onClick={logout}>Logout</Logout>
         <MessagesWrapper>
             {showFeed()}
         </MessagesWrapper>
         <InputMessageWrapper onSubmit={sentMessage}>
-            <InputMessage placeholder="Message" onChange={handleInputChange} value={inputMessage} onKeyDown={checkKey} />
+            <InputMessage placeholder="Message" onChange={handleInputChange} value={inputMessage} />
             <ButtonSend type="submit">Send</ButtonSend>
         </InputMessageWrapper>
     </WrapperFeed>
