@@ -14,10 +14,10 @@ import {
 
 const baseUrl = "https://job.ensemble.com.br/api"
 const ens_api_token = "R0VEEQ8vfMhpiBS1Yuzc"
-const token = window.localStorage.getItem("authToken")
-const username = window.localStorage.getItem("username")
 
 function Feed() {
+    const token = window.localStorage.getItem("authToken")
+    const username = window.localStorage.getItem("username")
     const [feed, setFeed] = useState(undefined)
     const [inputMessage, setInputMessage] = useState("")
     const [loginStatus, setLoginStatus] = useState(true)
@@ -55,6 +55,7 @@ function Feed() {
     function showFeed() {
         return <>
             {feed?.posts.slice(0).reverse().map((post) => {
+                console.log(username);
                 return (
                     <Message key={post.seq}>
                         <div>
