@@ -64,7 +64,7 @@ function Feed() {
                     }
                 )
                 totalMessages = response.data.lastPostSeq
-                setFeed(response.data)
+                setFeed(response.data.posts)
             }
 
             setTimeout(() => { getFeed() }, 5000)
@@ -80,10 +80,10 @@ function Feed() {
     }, [])
 
     function showFeed() {
-        if (feed?.posts) {
+        if (feed) {
             return <>
                 {
-                    feed?.posts.slice(0).reverse().map((post) => {
+                    feed?.slice(0).reverse().map((post) => {
                         return (
                             <Message
                                 key={post.seq}
@@ -106,6 +106,19 @@ function Feed() {
         e?.preventDefault()
         const message = inputMessage
         setInputMessage("")
+        const newFeed = [
+            ...feed,
+            {
+                date: "Enviando...",
+                message: message,
+                seq: totalMessages+1,
+                user: username
+            }
+        ]
+        console.log("Feed depois da união")
+        console.log(feed)
+
+        setFeed(newFeed)
         try {
             const response = await axios.post(
                 `${baseUrl}/feed`,
