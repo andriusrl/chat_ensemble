@@ -10,7 +10,7 @@ function Message(props) {
             </div>
             {props.message}
             <div>
-                {format(parseISO(props.date), "dd MMMM HH:mm")}
+                {props.date === "Enviando..." ? props.date : format(parseISO(props.date), "dd MMMM HH:mm")}
             </div>
         </MessageWrapper>
     );

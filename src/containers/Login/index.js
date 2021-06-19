@@ -28,7 +28,6 @@ function Login() {
                     }
                 }
             )
-            console.log(response.data.authToken)
             window.localStorage.setItem("authToken", response.data.authToken)
             window.localStorage.setItem("username", inputUsername)
             setLoginStatus(true)
