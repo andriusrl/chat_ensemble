@@ -95,7 +95,7 @@ function Feed() {
         }
         else {
             return <Loading>
-                Carregando...
+                Loading feed...
             </Loading>
         }
     }

@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { ButtonLogin, InputLogin, WrapperForm, WrapperLogin } from "./style";
+import { ButtonLogin, InputLogin, LoadingLogin, WrapperForm, WrapperLogin } from "./style";
 import axios from "axios";
 import { Redirect } from "react-router-dom"
 
@@ -13,6 +13,7 @@ function Login() {
 
     const signIn = async (e) => {
         e.preventDefault()
+        setLoginStatus(null)
         try {
             const response = await axios.post(
                 `${baseUrl}/auth`,
@@ -33,6 +34,7 @@ function Login() {
             setLoginStatus(true)
         } catch (error) {
             console.log(error)
+            setLoginStatus(false)
             if (error.response.data.error.code === "NOT_AUTHORIZED") {
                 alert("Username or password are incorrect!")
             }
@@ -54,11 +56,15 @@ function Login() {
     return (
         <WrapperLogin>
             <WrapperForm onSubmit={signIn}>
-                <h1>username</h1>
-                <InputLogin type="text" value={inputUsername} onChange={handleInputUsernameChange} />
-                <h1>password</h1>
-                <InputLogin type="password" value={inputPassword} onChange={handleInputPasswordChange} />
-                <ButtonLogin type="submit">LOGIN</ButtonLogin>
+                {loginStatus !== null ?
+                    <>
+                        <h1>username</h1>
+                        <InputLogin type="text" value={inputUsername} onChange={handleInputUsernameChange} />
+                        <h1>password</h1>
+                        <InputLogin type="password" value={inputPassword} onChange={handleInputPasswordChange} />
+                        <ButtonLogin type="submit">LOGIN</ButtonLogin>
+                    </> : <LoadingLogin>Loading account...</LoadingLogin>
+                }
             </WrapperForm>
         </WrapperLogin>
     );

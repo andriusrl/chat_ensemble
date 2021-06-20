@@ -40,3 +40,9 @@ export const ButtonLogin = styled.button`
     padding: 3px;
     height: 40px;
 `
+export const LoadingLogin = styled.div`
+    padding: 15px;
+    color: #ADADAD;
+    font-size: 20px;
+    font-weight: 800;
+`

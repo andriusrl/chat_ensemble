@@ -69,6 +69,8 @@ export const Loading = styled.div`
     box-sizing: border-box;
     border: 1px solid black;
     border-radius: 5px;
-    padding: 3px;
-    font-size: 26px;
+    padding: 9px;
+    font-size: 20px;
+    color: #ADADAD;
+    font-weight: 800;
 `
