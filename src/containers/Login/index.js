@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { WrapperForm, WrapperLogin } from "./style";
+import { ButtonLogin, InputLogin, WrapperForm, WrapperLogin } from "./style";
 import axios from "axios";
 import { Redirect } from "react-router-dom"
 
@@ -54,11 +54,11 @@ function Login() {
     return (
         <WrapperLogin>
             <WrapperForm onSubmit={signIn}>
-                username
-                <input type="text" value={inputUsername} onChange={handleInputUsernameChange}></input>
-                password
-                <input type="password" value={inputPassword} onChange={handleInputPasswordChange}></input>
-                <button type="submit">LOGIN</button>
+                <h1>username</h1>
+                <InputLogin type="text" value={inputUsername} onChange={handleInputUsernameChange} />
+                <h1>password</h1>
+                <InputLogin type="password" value={inputPassword} onChange={handleInputPasswordChange} />
+                <ButtonLogin type="submit">LOGIN</ButtonLogin>
             </WrapperForm>
         </WrapperLogin>
     );
