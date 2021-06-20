@@ -8,6 +8,7 @@ export const WrapperFeed = styled.div`
     align-items: center;
 `
 export const MessagesWrapper = styled.div`
+    background-color: #5C5C5C;
     border: 1px solid black;
     border-radius: 9px;
     width: 90%;
@@ -24,6 +25,8 @@ export const InputMessageWrapper = styled.form`
     margin-top: 3%;
     width: 90%;
     height: 9%;
+    display: flex;
+    justify-content: space-around;
     @media (min-width: 768px) {
         width: 60%;
     };
@@ -32,10 +35,21 @@ export const InputMessage = styled.input`
     border-radius: 9px;
     width: 75%;
     height: 100%;
+    background-color: #5C5C5C;
+    color: #ADADAD;
+    padding-left: 16px;
+    ::placeholder{
+        color: #ADADAD;
+    }
 `
 export const ButtonSend = styled.button`
-    width: 25%;
+    width: 23%;
     height: 100%;
+    border-radius: 10px;
+    border-top-right-radius: 25px;
+    border-bottom-right-radius: 25px;
+    font-weight: 800;
+    color: #ADADAD;
 `
 export const Logout = styled.button`
     position: absolute;
@@ -43,6 +57,10 @@ export const Logout = styled.button`
     margin: 0 0 90vh 0;
     width: 100px;
     height: 30px;
+    background-color: #ef8181;
+    border-radius: 9px;
+    color: #333333;
+    font-weight: 700;
 `
 export const Loading = styled.div`
     width: fit-content;

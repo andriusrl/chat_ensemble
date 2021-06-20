@@ -1,17 +1,19 @@
 import React from 'react'
 import { parseISO, format } from 'date-fns';
-import { MessageWrapper } from './style';
+import { Date, MessageText, MessageWrapper, User } from './style';
 
 function Message(props) {
     return (
         <MessageWrapper>
-            <div>
-                {props.user}
-            </div>
-            {props.message}
-            <div>
+            {
+                props.user ? <User>{props.user}</User> : false
+            }
+            <MessageText>
+                {props.message}
+            </MessageText>
+            <Date>
                 {props.date === "Enviando..." ? props.date : format(parseISO(props.date), "dd MMMM HH:mm")}
-            </div>
+            </Date>
         </MessageWrapper>
     );
 }
