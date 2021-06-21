@@ -6,7 +6,6 @@ export default createGlobalStyle`
     padding: 0;
     outline: 0;
     box-sizing: border-box;
-    /* background-color: #141414; */
     background-color: #3D3D3D;
   }
 

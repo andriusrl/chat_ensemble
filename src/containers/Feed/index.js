@@ -43,7 +43,6 @@ function Feed() {
             return (response.data.count)
         } catch (error) {
             console.log(error)
-            console.log(error.response)
         }
     }
     const getFeed = async () => {
