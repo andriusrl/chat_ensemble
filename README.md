@@ -5,7 +5,8 @@
 # Ensemble Chat
 
 #### Permite fazer login e postar novas mensagens em um chat compartilhado.
--As mensagens enviadas pelo usuário logado não mostram o nome do mesmo no titulo da mensagem 
+-As mensagens enviadas pelo usuário logado não mostram o nome do mesmo no titulo da mensagem
+-Mensagens que ainda estão sendo enviadas são sinalizadas no lugar da data para permitir a visualização de envio em tempo real.
 
 # Linguagens e bibliotecas utilizadas
 
