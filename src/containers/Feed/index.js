@@ -17,8 +17,8 @@ const ens_api_token = "R0VEEQ8vfMhpiBS1Yuzc"
 let totalMessages = undefined
 
 function Feed() {
-    const token = window.localStorage.getItem("authToken")
     const username = window.localStorage.getItem("username")
+    const token = window.localStorage.getItem("authToken")
     const [feed, setFeed] = useState(undefined)
     const [inputMessage, setInputMessage] = useState("")
     const [loginStatus, setLoginStatus] = useState(true)
@@ -43,7 +43,6 @@ function Feed() {
             return (response.data.count)
         } catch (error) {
             console.log(error)
-            console.log(error.response)
         }
     }
     const getFeed = async () => {
@@ -66,18 +65,16 @@ function Feed() {
                 totalMessages = response.data.lastPostSeq
                 setFeed(response.data.posts)
             }
-
-            setTimeout(() => { getFeed() }, 5000)
+            const newToken = window.localStorage.getItem("authToken")
+            if (newToken) {
+                setTimeout(() => { getFeed() }, 5000)
+            }
         } catch (error) {
             console.log(error)
             console.log(error.response)
             setLoginStatus(false)
         }
     }
-
-    useEffect(() => {
-        getFeed()
-    }, [])
 
     function showFeed() {
         if (feed) {
@@ -97,7 +94,7 @@ function Feed() {
         }
         else {
             return <Loading>
-                Carregando...
+                Loading feed...
             </Loading>
         }
     }
@@ -111,13 +108,10 @@ function Feed() {
             {
                 date: "Enviando...",
                 message: message,
-                seq: totalMessages+1,
+                seq: totalMessages + 1,
                 user: username
             }
         ]
-        console.log("Feed depois da união")
-        console.log(feed)
-
         setFeed(newFeed)
         try {
             const response = await axios.post(
@@ -145,6 +139,10 @@ function Feed() {
         window.localStorage.removeItem('username')
         setLoginStatus(false)
     }
+
+    useEffect(() => {
+        getFeed()
+    }, [])
 
     if (!loginStatus) {
         return <Redirect to="/" />
